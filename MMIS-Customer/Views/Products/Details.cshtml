@@ -1,0 +1,104 @@
+﻿@model MMIS_Customer.Models.Product
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4 class="back">@Html.ActionLink("Back", "Index", "Products")</h4>
+
+
+<h2 class="product-details-title">@Html.DisplayFor(model => model.Title)</h2>
+
+<div>
+    <h4 class="details-header">Details</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Photo
+        </dt>
+        <dd>
+            <img class="product-index-image" alt="Product Image" src="@Html.DisplayFor(model => model.ImageUrl)" />
+        </dd>
+        
+        <dt>
+            Overview
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShortDescription)
+        </dd>
+
+        <dt>
+            Description
+        </dt>
+
+        <dd>
+            <pre>
+            @Html.DisplayFor(model => model.LongDescription)
+            </pre>
+        </dd>
+
+        <dd>
+            
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+
+        <dd>
+            $@Html.DisplayFor(model => model.Price)
+        </dd>
+
+    </dl>
+</div>
+
+<div class="sold-at-header">Sold At</div>
+
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+    @foreach (var productStock in Model.ProductStocks) /* categories is a navigation property is link without a property. */
+    {
+        using (Html.BeginForm("AddToCart", "Cart")) /* action name AddToCart, controller name Cart */
+        {
+            <div class="panel product-details-storePanel">
+                <div class="panel-heading" role="tab" id="">
+                    <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="" aria-expanded="true" aria-controls="">
+                            @productStock.Store.Location.Name
+                        </a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        @Html.Hidden("productID", productStock.ProductID)
+                        @Html.Hidden("storeID", productStock.StoreID)
+                        <div class="product-details-stockAvailable-heading">
+                            Stock Available
+                        </div>
+                        <div class="product-details-stockAvailable-value">
+                            @productStock.Quantity
+                        </div>
+                        
+                        <div class="product-details-purchaseQuantity-heading">
+                            Quantity
+                        </div>
+                        <div class ="product-details-purchaseQuantity-value">
+                            @Html.TextBox("quantity", 1, new
+                            {
+                                type = "number",
+                                required = string.Empty,
+                                min = 1,
+                                max = productStock.Quantity,
+                                @class = "product-details-quantityTextbox"
+                            })
+                            <input type="submit" value="ADD TO CART" class="addToCart"/>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        }
+}
+</div>

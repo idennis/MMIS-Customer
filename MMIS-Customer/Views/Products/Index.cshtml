@@ -1,0 +1,72 @@
+﻿@model IEnumerable<MMIS_Customer.Models.Product>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="products-index-header">@Html.ActionLink("Products", "Index", "Products")</h2>
+<div class="search-panel">
+    @using (Html.BeginForm("Index", "Products", FormMethod.Get))
+    {
+        <div class="product-search-name col-md-3">
+            <h4 class="product-search-name-title">Search</h4>
+            <div class="product-search-name-value">@Html.TextBox("productName", "", new { placeholder = "Product Name" })</div>
+        </div>
+
+        <div class="product-search-category col-md-3">
+            <h4 class="product-search-category-title">Category</h4>
+            <div class="product-search-category-value">
+                @Html.DropDownList("category", "All")
+            </div>
+        </div>
+        <div class="search-button col-md-3">
+            <div class="product-search-button">
+                <input type="submit" value="Search" />
+            </div>
+            
+        </div>
+
+
+    }
+</div>
+ 
+
+
+<table class="table">
+    <tr>
+        <th>
+            Product
+        </th>
+        <th>
+        </th>
+        <th>
+            Overview
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            <img class="product-index-image" alt="Product Image" src="@Url.Encode(item.ImageUrl)" />
+        </td>
+        <td>
+            <div class="productName">@Html.DisplayFor(modelItem => item.Title)</div>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShortDescription)
+        </td>
+        <td>
+            @((item.Price).ToString("C"))
+        </td>
+        <td>
+            @Html.ActionLink("Details", "Details", new { id=item.ProductID })
+        </td>
+    </tr>
+}
+
+</table>

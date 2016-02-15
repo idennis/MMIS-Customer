@@ -1,0 +1,10 @@
+﻿@model IEnumerable<MMIS_Customer.Models.Gallery>
+@{
+    ViewBag.Title = "Home Page";
+}
+
+@*<p>
+    @Html.ActionLink("Add Image", "AddImage", "Slider", new { id = "linkAddimage" }, null) |
+    @Html.ActionLink("Delete Image", "DeleteImages", "Slider", new { id = "linkDeleteImage" }, null)
+</p>*@
+@Html.Partial("~/Views/Shared/SliderPartial.cshtml", Model)

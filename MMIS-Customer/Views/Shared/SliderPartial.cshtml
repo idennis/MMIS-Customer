@@ -1,0 +1,18 @@
+﻿@model IEnumerable<MMIS_Customer.Models.Gallery>
+
+
+<div>
+    <ul id="slider">
+        @foreach (var image in Model)
+        {
+            <li><img src="@Url.Content(image.ImagePath)" /></li>
+        }
+    </ul>
+</div>
+<script>
+    //Call script on load
+    $(document).ready(function () {
+        $('#slider').bxSlider();
+        
+    });
+</script>

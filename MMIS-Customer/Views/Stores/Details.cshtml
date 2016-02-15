@@ -1,0 +1,29 @@
+﻿@model MMIS_Customer.Models.Store
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Html.DisplayFor(model => model.Location.Name)</h2>
+
+<div>
+    <h4 class="details-header">Details</h4>
+	<hr />
+    @Html.DisplayFor(model => model.LongDescription)
+    <dl class="dl-horizontal">
+        <dt>
+            Open from:
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OpenTime)
+        </dd>
+        <dt>
+            Closing at:
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CloseTime)
+        </dd>
+
+    </dl>
+</div>

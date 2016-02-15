@@ -1,0 +1,15 @@
+﻿@model IEnumerable<MMIS_Customer.Models.Gallery>
+@{
+    ViewBag.Title = "Home Page";
+}
+
+@Html.Partial("~/Views/Shared/SliderPartial.cshtml", Model)
+
+<div class="row">
+    <div class="col-md-6 col-sm-6">
+        <a href="@Url.Action("Index", "Products")"><img class="home-imagelink" src="~/Content/images/all-products.png" /></a>
+    </div>
+    <div class="col-md-6 col-sm-6">
+        <a href="@Url.Action("Index", "Stores")"><img class="home-imagelink" src="~/Content/images/stores.png" /></a>
+    </div>
+</div>

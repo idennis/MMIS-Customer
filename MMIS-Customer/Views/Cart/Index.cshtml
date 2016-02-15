@@ -1,0 +1,112 @@
+﻿@model MMIS_Customer.Models.Cart
+
+@{
+    ViewBag.Title = "Cart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if (Model.CustomerPurchaseItems.Any())
+{
+<h4 class="back">@Html.ActionLink("Continue Shopping", "Index", "Products")</h4> 
+}
+
+<h2 class="products-index-header">@Html.ActionLink("Cart", "Index", "Cart")</h2>
+
+@if(Model.CustomerPurchaseItems == null)
+{
+    <span> Opps, your cart is empty. </span>
+
+}
+else
+{
+    if (!Model.CustomerPurchaseItems.Any())
+    {   
+        <h4> Opps, your cart is empty.</h4>
+        <div class="empty-cart-shop-button-container">
+            @Html.ActionLink("Fill 'er up", "Index", "Products" ,null, new { @class = "empty-cart-shop-button" })
+        </div>
+    }
+    else
+    {
+   
+<table class="table cart-table">
+    <tr>
+        <th>
+            Store
+        </th>
+        <th>
+            Item
+        </th>
+        <th>
+            Price
+        </th>
+        <th>
+            Quantity
+        </th>
+        <th>
+            Subtotal
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.CustomerPurchaseItems)
+    {
+        <tr>
+            <td>
+                @item.Store.Location.Name
+            </td>
+            <td>
+                @item.Product.Title
+            </td>
+            <td>
+                @item.Product.Price.ToString("C")
+            </td>
+            <td>
+                @using (Html.BeginForm("ChangeQuantity", "Cart"))
+                {
+                    @Html.Hidden("productID", item.ProductID)
+                    @Html.Hidden("storeID", item.StoreID)
+                    @Html.TextBox("quantity", item.Quantity, new
+                    {
+                        type = "number",
+                        required = string.Empty,
+                        min = 1,
+                        max = item.Quantity,
+                        @class = "cart-quantityTextbox"
+                    })
+                    <input type="submit" value="Update" class="changeQuantity" />
+                }
+            </td>
+            <td>
+               @((item.Product.Price * item.Quantity).ToString("C"))
+            </td>
+            <td>
+                @using(Html.BeginForm("RemoveFromCart","Cart"))
+                {
+                    @Html.Hidden("product", item.Product)
+                    @Html.Hidden("storeID", item.StoreID)
+                    @Html.Hidden("productID", item.ProductID)
+                    
+                    <input type="submit" value="Remove" class="removeFromCart" />
+                }
+            </td>
+        </tr>
+    }
+
+</table>
+    <div class="cart-total-price-panel row">
+        <div class="total-price col-md-2">
+            <div class="total-price-heading">
+                Total Price
+            </div>
+            <div class="total-price-value">
+                @Model.TotalPrice.ToString("C")
+            </div>
+        </div>
+
+        <div class="cart-checkoutbutton-container col-md-3">
+            <input type="submit" value="Checkout" class="checkoutButton" onclick="location.href='@Url.Action("Index","Checkout")'" />
+        </div>
+    </div>
+    }
+
+}
